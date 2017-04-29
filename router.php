@@ -17,3 +17,4 @@
     $controllerName = 'Controllers\\' . ucfirst($r);
     $controller = new $controllerName();
     $data = call_user_func([$controller, $a]);
+    echo jsonencode($data);

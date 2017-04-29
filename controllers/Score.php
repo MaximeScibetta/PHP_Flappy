@@ -17,24 +17,34 @@ class Score
     {
         if( isset($_POST['score']) ){
             if( ctype_digit($_POST['score']) ){
-                jsonencode( $this->scoreModel->postScore() );
-                echo jsonencode( ['success'=>'Le score a bien été enregistré !'] );
+                $scores = $this->scoreModel->postScore();
+                $errors = [
+                    'success' => 'Le score a bien été enregistré !',
+                    ];
             }else{
-                die( jsonencode( ['error'=>'Le nombre que vous avez fournis n´est pas une entier !'] ) );
+                $errors = [
+                    'error' => 'Le nombre que vous avez fournis n´est pas un entier !',
+                ];
             }
         }else{
-            die( jsonencode( ['error'=>'Il faut fournir un score !']) );
+            $errors = [
+                'error' => 'Il faut fournir un score !',
+            ];
         }
+        return compact( 'scores', 'errors');
     }
 
     public function index()
     {
         if( $scores = $this->scoreModel->getScore() ){
-            var_dump($scores);
-            die();
-            return jsonencode($scores);
+            $errors = [
+                'success' => 'Le score a bien été affiché !',
+            ];
         }else{
-            die( ['error'=>'Il sembe qu´un problème est survenu lors de l´affichage des scores.'] );
+            $errors = [
+                'error' => 'Il sembe qu´un problème est survenu lors de l´affichage des scores.',
+            ];
         }
+        return compact( 'scores', 'errors');
     }
 }
